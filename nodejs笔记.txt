@@ -1,0 +1,74 @@
+node
+>url
+{ parse: [Function: urlParse],
+  resolve: [Function: urlResolve],
+  resolveObject: [Function: urlResolveObject],
+  format: [Function: urlFormat],
+  Url: [Function: Url] }
+> url.parse('http://www.imooc.com/course/list') //parse方法
+Url {
+  protocol: 'http:',         //指定底层使用的协议
+  slashes: true,             //是否有协议的双斜线
+  auth: null,                // 
+  host: 'www.imooc.com',     //服务器地址（域名）
+  port: null,                //端口
+  hostname: 'www.imooc.com', //主机名
+  hash: null,                //哈希值对应锚页面上的某个锚点
+  search: null,              //查询字符串参数
+  query: null,               //发送给http服务器的一个数据 等号分隔开的键值称为参数串
+  pathname: '/course/list',  //访问资源路径名
+  path: '/course/list',      //路径
+  href: 'http://www.imooc.com/course/list' }//没被解析的完整的超链接
+> url.parse('http://www.imooc.com:8080/course/list?from=scott&course=node#floor1')
+Url {
+  protocol: 'http:',
+  slashes: true,
+  auth: null,
+  host: 'www.imooc.com:8080',
+  port: '8080',
+  hostname: 'www.imooc.com',
+  hash: '#floor1',
+  search: '?from=scott&course=node',
+  query: 'from=scott&course=node',
+  pathname: '/course/list',
+  path: '/course/list?from=scott&course=node',
+  href: 'http://www.imooc.com:8080/course/list?from=scott&course=node#floor1' }
+>> url.format({                         //format方法  解析成URL地址
+...   protocol: 'http:',  
+...   slashes: true,
+...   auth: null,
+...   host: 'www.imooc.com:8080',
+...   port: '8080',
+...   hostname: 'www.imooc.com',
+...   hash: '#floor1',
+...   search: '?from=scott&course=node',
+...   query: 'from=scott&course=node',
+...   pathname: '/course/list',
+...   path: '/course/list?from=scott&course=node',
+...   href: 'http://www.imooc.com:8080/course/list?from=scott&course=node#floor1' })
+'http://www.imooc.com:8080/course/list?from=scott&course=node#floor1'
+> url.resolve('http://imooc.com/','/course/list')
+'http://imooc.com/course/list'
+
+> querystring.stringify({name:'scott',course:['jade','node'],from:''})  //序列化
+'name=scott&course=jade&course=node&from='
+> querystring.stringify({name:'scott',course:['jade','node'],from:''},',')
+'name=scott,course=jade,course=node,from='
+> querystring.stringify({name:'scott',course:['jade','node'],from:''},',',':')
+'name:scott,course:jade,course:node,from:'
+> querystring.parse('name=scott&course=jade&course=node&from=')     //反序列化
+{ name: 'scott', course: [ 'jade', 'node' ], from: '' }
+> querystring.parse('name=scott,course=jade,course=node,from=','')
+{ name: 'scott,course=jade,course=node,from=' }
+> querystring.parse('name:scott,course:jade,course:node,from:','',':')
+{ name: 'scott,course:jade,course:node,from:' }
+
+
+> querystring.escape('<哈哈>')     //转义
+'%3C%E5%93%88%E5%93%88%3E'
+> querystring.escape('<汪渊>')
+'%3C%E6%B1%AA%E6%B8%8A%3E'
+> querystring.unescape('<%3C%E6%B1%AA%E6%B8%8A%3E>')  //反转义
+'<<汪渊>>'
+
+
